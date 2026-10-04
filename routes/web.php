@@ -5,7 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotaController;
 
 // Rutas para el controlador HomeController
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', HomeController::class);
 
 // Rutas para el controlador NotaController
 route::get('/notas', [NotaController::class, 'index']);

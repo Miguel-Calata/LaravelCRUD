@@ -7,14 +7,16 @@ use Illuminate\Http\Request;
 class NotaController extends Controller
 {
     public function index() {
-        return "Aqui vamos a mostrar todos los posts";
+        return view('notas.index');
     }
 
-    public function crete(){
-        return "Aqui vamos a mostrar el formulario para crear un post";
+    public function create(){
+        return view('notas.create');
     }
 
     public function show($nota) {
-        return "Aqui vamos a mostrar el post: {$nota}";
+    // en este caso también se puede usar compact('nota') en lugar de ['nota' => $nota], es literalmente lo mismo
+        return view('notas.show', ['nota' => $nota]);
+    
     }
 }
