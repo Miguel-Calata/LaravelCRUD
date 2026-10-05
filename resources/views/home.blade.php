@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Notas con Laravel</title>
+    @vite('resources/css/app.css')
 </head>
 <body>
-    <h1>Bienvenido a la página de inicio</h1>
+    <h1 class="max-w-7xl mx-auto text-3xl font-bold">
+    Hello world!
+    </h1>
 </body>
 </html>
