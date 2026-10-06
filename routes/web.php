@@ -8,6 +8,6 @@ use App\Http\Controllers\NotaController;
 Route::get('/', HomeController::class);
 
 // Rutas para el controlador NotaController
-route::get('/notas', [NotaController::class, 'index']);
+route::get('/notas', [NotaController::class, 'index']) -> name('notas.index');
 route::get('/notas/create', [NotaController::class, 'create']);
 route::get('/notas/{nota}', [NotaController::class, 'show']);
