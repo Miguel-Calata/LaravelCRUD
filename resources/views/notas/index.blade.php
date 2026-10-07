@@ -1,12 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notas</title>
-    @vite('resources/css/app.css')
+    <title>Mis notas</title>
 </head>
 <body>
-    <h1>Bienvenido a la página de la lista de notas</h1>
+    <h1>Mis notas</h1>
+
+    <a href="{{ route('notas.create') }}">+ Nueva nota</a>
+
+    @foreach ($notas as $nota)
+        <h2><a href="{{ route('notas.show', $nota) }}">{{ $nota->titulo }}</a></h2>
+        <p>{{ $nota->contenido }}</p>
+        <small>{{ $nota->created_at->format('d/m/Y H:i') }}</small>
+    @endforeach
 </body>
 </html>
