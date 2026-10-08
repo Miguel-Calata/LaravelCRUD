@@ -8,5 +8,6 @@
 </head>
 <body>
     <h1>Bienvenido a la página de la nota {{ $nota }}</h1>
+    <a href="{{ route('notas.edit', $nota) }}">Editar</a>
 </body>
 </html>
