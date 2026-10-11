@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Mis notas</title>
-</head>
-<body>
+@extends('layouts.base')
+
+@section('titulo', 'Mis notas')
+
+@section('contenido')
     <h1>Mis notas</h1>
 
     <a href="{{ route('notas.create') }}">+ Nueva nota</a>
@@ -14,5 +12,4 @@
         <p>{{ $nota->contenido }}</p>
         <small>{{ $nota->created_at->format('d/m/Y H:i') }}</small>
     @endforeach
-</body>
-</html>
+@endsection

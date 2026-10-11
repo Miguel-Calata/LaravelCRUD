@@ -15,6 +15,7 @@ class NotaController extends Controller
 
     public function create()
     {
+        
         return view('notas.create');
     }
 
@@ -31,7 +32,7 @@ class NotaController extends Controller
             'contenido' => 'required|string',
         ]);
         $nota = Nota::create($data);
-        return redirect()->route('notas.show', $nota);
+        return redirect()->route('notas.show', $nota)->with('exito', 'Nota creada');
     }
 
     public function edit(Nota $nota)
@@ -48,6 +49,13 @@ class NotaController extends Controller
 
         $nota->update($datos);
 
-        return redirect() -> route('notas.show', $nota);
+        return redirect()->route('notas.show', $nota)->with('exito', 'Nota actualizada');
     }
+
+    public function destroy(Nota $nota)
+    {
+        $nota->delete();
+        return redirect()->route('notas.index')->with('exito', 'Nota eliminada correctamente');
+    }
+
 }

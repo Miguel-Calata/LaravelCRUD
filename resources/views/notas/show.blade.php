@@ -1,13 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nota {{ $nota }}</title>
-    @vite('resources/css/app.css')
-</head>
-<body>
-    <h1>Bienvenido a la página de la nota {{ $nota }}</h1>
+@extends('layouts.base')
+
+@section('titulo', $nota->titulo)
+
+@section('contenido')
+    <h1>{{ $nota->titulo }}</h1>
     <a href="{{ route('notas.edit', $nota) }}">Editar</a>
-</body>
-</html>
+
+    <p>{{ $nota->contenido }}</p>
+
+    <small>{{ $nota->created_at->format('d/m/Y H:i') }}</small>
+
+    <form action="{{ route('notas.destroy', $nota) }}" method="POST"
+        onsubmit="return confirm('¿Seguro que quieres borrar esta nota?')">
+        @csrf
+        @method('DELETE')
+        <button type="submit">Borrar</button>
+    </form>
+@endsection
