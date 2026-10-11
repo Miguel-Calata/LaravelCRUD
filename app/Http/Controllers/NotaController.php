@@ -4,18 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Nota;
+use App\Http\Requests\NotaRequest;
 
 class NotaController extends Controller
 {
     public function index()
     {
-        $notas = Nota::orderBy('created_at', 'desc')->get();
+        $notas = Nota::orderByDesc('fijada')->latest()->get();
         return view('notas.index', ['notas' => $notas]);
     }
 
     public function create()
     {
-        
+
         return view('notas.create');
     }
 
@@ -25,13 +26,9 @@ class NotaController extends Controller
         return view('notas.show', ['nota' => $nota]);
     }
 
-    public function store(Request $request)
+    public function store(NotaRequest $request)
     {
-        $data = $request->validate([
-            'titulo' => 'required|string|max:255',
-            'contenido' => 'required|string',
-        ]);
-        $nota = Nota::create($data);
+        $nota = Nota::create($request->validated());
         return redirect()->route('notas.show', $nota)->with('exito', 'Nota creada');
     }
 
@@ -40,14 +37,10 @@ class NotaController extends Controller
         return view('notas.edit', ['nota' => $nota]);
     }
 
-    public function update(Request $request, Nota $nota)
+    public function update(NotaRequest $request, Nota $nota)
     {
-        $datos = $request->validate([
-            'titulo' => 'required|string|max:255',
-            'contenido' => 'required|string',
-        ]);
-
-        $nota->update($datos);
+        // es lo mismo que hacer la validación manualmente con $request->validate([...]) y luego hacer $nota->update($validatedData)
+        $nota->update($request->validated());
 
         return redirect()->route('notas.show', $nota)->with('exito', 'Nota actualizada');
     }
@@ -58,4 +51,29 @@ class NotaController extends Controller
         return redirect()->route('notas.index')->with('exito', 'Nota eliminada correctamente');
     }
 
+    public function fijar(Request $request, Nota $nota)
+    {
+        $validated = $request->validate([
+            'fijada' => ['required', 'boolean'],
+        ]);
+
+        $nota->update($validated);
+
+        return back()->with('exito', $nota->fijada ? 'Nota fijada.' : 'Nota desfijada.');
+    }
+
+
+    public function papelera()
+    {
+        $notas = Nota::onlyTrashed()->orderBy('deleted_at', 'desc')->get();
+
+        return view('notas.papelera', ['notas' => $notas]);
+    }
+
+    public function restaurar(Nota $nota)
+    {
+        $nota->restore();
+
+        return back()->with('exito', 'Nota restaurada.');
+    }
 }

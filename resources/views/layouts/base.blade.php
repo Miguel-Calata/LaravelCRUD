@@ -11,6 +11,7 @@
     <header>
         @section('navegacion')
             <a href="{{ route('notas.index') }}">Mis notas</a>
+            <a href="{{ route('notas.papelera') }}">Papelera</a>
         @show
     </header>
 
