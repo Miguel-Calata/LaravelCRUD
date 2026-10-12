@@ -9,13 +9,24 @@ use App\Models\Categoria;
 
 class NotaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        
-        $notas = Nota::with('categoria')->orderByDesc('fijada')->latest()->get();
+        $buscar = $request->input('buscar');
 
+        // Se usa with('categoria') para evitar el problema de N+1 queries, ya que se va a mostrar la categoría de cada nota en la vista
+        $notas = Nota::with('categoria')
+            ->when($buscar, function ($query, $buscar) {
+                $query->where(function ($q) use ($buscar) {
+                    $q->where('titulo', 'like', "%{$buscar}%")
+                        ->orWhere('contenido', 'like', "%{$buscar}%");
+                });
+            })
+            ->orderByDesc('fijada')
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
 
-        return view('notas.index', ['notas' => $notas]);
+        return view('notas.index', ['notas' => $notas, 'buscar' => $buscar]);
     }
 
     public function create()

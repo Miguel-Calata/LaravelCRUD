@@ -7,7 +7,15 @@
 
     <a href="{{ route('notas.create') }}">+ Nueva nota</a>
 
-    @foreach ($notas as $nota)
+    <form action="{{ route('notas.index') }}" method="GET">
+        <input type="search" name="buscar" value="{{ $buscar }}" placeholder="Buscar notas...">
+        <button type="submit">Buscar</button>
+        @if ($buscar)
+            <a href="{{ route('notas.index') }}">Limpiar</a>
+        @endif
+    </form>
+
+    @forelse ($notas as $nota)
         <h2><a href="{{ route('notas.show', $nota) }}">{{ $nota->titulo }}</a></h2>
         <p>{{ $nota->contenido }}</p>
         <small>{{ $nota->created_at->format('d/m/Y H:i') }}</small>
@@ -20,6 +28,10 @@
                 {{ $nota->fijada ? 'Desfijar' : 'Fijar' }}
             </button>
         </form>
-    @endforeach
+    @empty
+        <p>No hay notas disponibles.</p>
+    @endforelse
+
+    {{ $notas->links() }}
 
 @endsection
