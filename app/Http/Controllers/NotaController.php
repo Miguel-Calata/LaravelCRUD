@@ -92,4 +92,11 @@ class NotaController extends Controller
 
         return back()->with('exito', 'Nota restaurada.');
     }
+
+    public function json(Nota $nota)
+    {
+        $nota->load('categoria');
+
+        return response()->json($nota, 200);
+    }
 }

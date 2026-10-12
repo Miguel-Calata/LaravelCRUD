@@ -36,7 +36,7 @@ Route::prefix('notas')
         Route::put('/{nota}', 'update')->name('update');
         Route::delete('/{nota}', 'destroy')->name('destroy');
         Route::patch('/{nota}/fijar', 'fijar')->name('fijar');
-        
+        Route::get('/{nota}/json', 'json')->name('json');
     });
 
 Route::get('/welcome', function () {
