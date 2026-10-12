@@ -5,19 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Nota;
 use App\Http\Requests\NotaRequest;
+use App\Models\Categoria;
 
 class NotaController extends Controller
 {
     public function index()
     {
-        $notas = Nota::orderByDesc('fijada')->latest()->get();
+        
+        $notas = Nota::with('categoria')->orderByDesc('fijada')->latest()->get();
+
+
         return view('notas.index', ['notas' => $notas]);
     }
 
     public function create()
     {
-
-        return view('notas.create');
+        $categorias = Categoria::orderBy('nombre')->get();
+        return view('notas.create', ['categorias' => $categorias]);
     }
 
     public function show(Nota $nota)
@@ -34,7 +38,8 @@ class NotaController extends Controller
 
     public function edit(Nota $nota)
     {
-        return view('notas.edit', ['nota' => $nota]);
+        $categorias = Categoria::orderBy('nombre')->get();
+        return view('notas.edit', ['nota' => $nota, 'categorias' => $categorias]);
     }
 
     public function update(NotaRequest $request, Nota $nota)
