@@ -17,6 +17,7 @@ class NotaRequest extends FormRequest
         return [
             'titulo' => 'required|string|max:255|unique:notas,titulo,' . $this->route('nota')?->id,
             'contenido' => 'required|string',
+            'categoria_id' => 'nullable|integer|exists:categorias,id',
         ];
     }
 

@@ -99,4 +99,20 @@ class NotaController extends Controller
 
         return response()->json($nota, 200);
     }
+
+    public function porCategoria(?Categoria $categoria = null)
+    {
+        $consulta = Nota::with('categoria')->latest();
+
+        if ($categoria) {
+            $consulta->where('categoria_id', $categoria->id);
+        } else {
+            $consulta->whereNull('categoria_id');
+        }
+
+        $notas = $consulta->paginate(10);
+        $buscar = null; // No hay búsqueda en esta vista, así que se establece como null
+
+        return view('notas.index', compact('notas', 'buscar'));
+    }
 }

@@ -20,11 +20,18 @@
         <p>{{ $nota->contenido }}</p>
         <small>{{ $nota->created_at->format('d/m/Y H:i') }}</small>
 
-        <form action="{{ route('notas.fijar', $nota) }}" method="POST" class="d-inline">
+        @if ($nota->categoria)
+            <a href="{{ route('notas.categoria', $nota->categoria) }}">{{ $nota->categoria->nombre }}</a>
+        @else
+            <a href="{{ route('notas.categoria') }}">Sin categoría</a>
+        @endif
+
+        <form action="{{ route('notas.fijar', $nota) }}" method="POST" class="inline">
             @csrf
             @method('PATCH')
             <input type="hidden" name="fijada" value="{{ $nota->fijada ? 0 : 1 }}">
-            <button type="submit" class="btn btn-sm {{ $nota->fijada ? 'btn-warning' : 'btn-outline-warning' }}">
+            <button type="submit"
+                class="text-sm px-2 py-1 rounded {{ $nota->fijada ? 'bg-yellow-400' : 'border border-yellow-400' }}">
                 {{ $nota->fijada ? 'Desfijar' : 'Fijar' }}
             </button>
         </form>
@@ -33,5 +40,4 @@
     @endforelse
 
     {{ $notas->links() }}
-
 @endsection

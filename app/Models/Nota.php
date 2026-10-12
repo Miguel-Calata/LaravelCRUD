@@ -19,7 +19,7 @@ class Nota extends Model
         'categoria_id',
     ];
 
-    protected function cast(): array
+    protected function casts(): array
     {
         return [
             'fijada' => 'boolean',

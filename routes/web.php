@@ -30,6 +30,7 @@ Route::prefix('notas')
         Route::get('/create', 'create')->name('create');
         Route::post('/', 'store')->name('store');
         Route::get('/papelera', 'papelera')->name('papelera');
+        Route::get('/categoria/{categoria?}', 'porCategoria')->name('categoria');
         Route::patch('/{nota}/restaurar', 'restaurar')->name('restaurar') -> withTrashed();
         Route::get('/{nota}', 'show')->name('show');
         Route::get('/{nota}/edit', 'edit')->name('edit');
