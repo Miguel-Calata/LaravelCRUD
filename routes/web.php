@@ -23,6 +23,7 @@ Route::redirect('/', '/notas');
 
 Route::prefix('notas')
     ->name('notas.')
+    ->middleware('solo.lectura') // Aplica el middleware solo.lectura a todas las rutas del grupo
     ->controller(NotaController::class)
     ->group(function () {
         Route::get('/', 'index')->name('index');

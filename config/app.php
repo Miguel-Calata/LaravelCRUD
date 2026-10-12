@@ -2,6 +2,8 @@
 
 return [
 
+    //Para poner la app en modo solo lectura, se puede usar la variable de entorno APP_SOLO_LECTURA=true, para el middleware
+    'solo_lectura' => env('APP_SOLO_LECTURA', false),
     /*
     |--------------------------------------------------------------------------
     | Application Name
