@@ -1,5 +1,9 @@
 @props(['tipo' => 'exito'])
 
-<div style="color: {{ $tipo === 'error' ? 'red' : 'green' }}; border: 1px solid; padding: 8px; margin: 8px 0;">
+<div {{ $attributes->class([
+    'mb-6 rounded-md border px-4 py-3 text-sm',
+    'border-red-200 bg-red-50 text-red-800' => $tipo === 'error',
+    'border-green-200 bg-green-50 text-green-800' => $tipo !== 'error',
+]) }}>
     {{ $slot }}
 </div>
