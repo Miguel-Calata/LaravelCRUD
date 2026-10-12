@@ -15,7 +15,7 @@
         @csrf
         @method('PUT')
 
-        <x-nota-campos :nota="$nota" />
+        <x-nota-campos :nota="$nota" :categorias="$categorias" /> 
 
         <button type="submit">Guardar cambios</button>
     </form>

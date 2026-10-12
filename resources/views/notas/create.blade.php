@@ -10,7 +10,7 @@
     <form action="{{ route('notas.store') }}" method="POST">
         @csrf
 
-        <x-nota-campos />
+        <x-nota-campos :categorias="$categorias" />
 
         <button type="submit">Guardar</button>
     </form>

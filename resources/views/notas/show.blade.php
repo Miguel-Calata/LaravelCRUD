@@ -7,6 +7,7 @@
     <a href="{{ route('notas.edit', $nota) }}">Editar</a>
 
     <p>{{ $nota->contenido }}</p>
+    <p>Categoría: {{ $nota->categoria?->nombre ?? 'Sin categoría' }}</p>
 
     <small>{{ $nota->created_at->format('d/m/Y H:i') }}</small>
 
