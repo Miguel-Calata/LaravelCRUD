@@ -14,7 +14,7 @@ class NotaController extends Controller
         $buscar = $request->input('buscar');
 
         // Se usa with('categoria') para evitar el problema de N+1 queries, ya que se va a mostrar la categoría de cada nota en la vista
-        $notas = Nota::with('categoria')
+        $notas = Nota::with('categoria', 'etiquetas')
             ->when($buscar, function ($query, $buscar) {
                 $query->where(function ($q) use ($buscar) {
                     $q->where('titulo', 'like', "%{$buscar}%")
@@ -37,6 +37,8 @@ class NotaController extends Controller
 
     public function show(Nota $nota)
     {
+        $nota->load(['categoria', 'etiquetas']);
+
         // en este caso también se puede usar compact('nota') en lugar de ['nota' => $nota], es literalmente lo mismo
         return view('notas.show', ['nota' => $nota]);
     }
@@ -102,7 +104,7 @@ class NotaController extends Controller
 
     public function porCategoria(?Categoria $categoria = null)
     {
-        $consulta = Nota::with('categoria')->latest();
+        $consulta = Nota::with('categoria', 'etiquetas')->latest();
 
         if ($categoria) {
             $consulta->where('categoria_id', $categoria->id);

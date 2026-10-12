@@ -26,6 +26,10 @@
             <a href="{{ route('notas.categoria') }}">Sin categoría</a>
         @endif
 
+        @foreach ($nota->etiquetas as $etiqueta)
+            <span class="text-xs px-2 py-0.5 rounded bg-gray-200">#{{ $etiqueta->nombre }}</span>
+        @endforeach
+
         <form action="{{ route('notas.fijar', $nota) }}" method="POST" class="inline">
             @csrf
             @method('PATCH')
