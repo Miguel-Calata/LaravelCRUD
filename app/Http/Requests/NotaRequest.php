@@ -18,6 +18,8 @@ class NotaRequest extends FormRequest
             'titulo' => 'required|string|max:255|unique:notas,titulo,' . $this->route('nota')?->id,
             'contenido' => 'required|string',
             'categoria_id' => 'nullable|integer|exists:categorias,id',
+            'etiquetas'    => 'nullable|array',
+            'etiquetas.*'  => 'integer|exists:etiquetas,id',
         ];
     }
 
@@ -28,6 +30,8 @@ class NotaRequest extends FormRequest
             'titulo.max' => 'El título no puede pasar de :max caracteres.',
             'contenido.required' => 'El contenido es obligatorio.',
             'titulo.unique' => 'El título ya existe. Por favor, elige otro. (revisa también la papelera)',
+            'categoria_id.exists' => 'La categoría seleccionada no existe.',
+            'etiquetas.*.exists'  => 'Una de las etiquetas seleccionadas no existe.',
         ];
     }
 }

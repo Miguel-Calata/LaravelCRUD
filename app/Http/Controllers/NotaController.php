@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Nota;
 use App\Http\Requests\NotaRequest;
 use App\Models\Categoria;
+use App\Models\Etiqueta;
 
 class NotaController extends Controller
 {
@@ -32,7 +33,8 @@ class NotaController extends Controller
     public function create()
     {
         $categorias = Categoria::orderBy('nombre')->get();
-        return view('notas.create', ['categorias' => $categorias]);
+        $etiquetas = Etiqueta::orderBy('nombre')->get();
+        return view('notas.create', ['categorias' => $categorias, 'etiquetas' => $etiquetas]);
     }
 
     public function show(Nota $nota)
@@ -45,20 +47,23 @@ class NotaController extends Controller
 
     public function store(NotaRequest $request)
     {
-        $nota = Nota::create($request->validated());
+        $nota = Nota::create($request->safe()->except('etiquetas'));
+        $nota->etiquetas()->sync($request->validated('etiquetas', []));
         return redirect()->route('notas.show', $nota)->with('exito', 'Nota creada');
     }
 
     public function edit(Nota $nota)
     {
         $categorias = Categoria::orderBy('nombre')->get();
-        return view('notas.edit', ['nota' => $nota, 'categorias' => $categorias]);
+        $etiquetas = Etiqueta::orderBy('nombre')->get();
+        return view('notas.edit', ['nota' => $nota, 'categorias' => $categorias, 'etiquetas' => $etiquetas]);
     }
 
     public function update(NotaRequest $request, Nota $nota)
     {
         // es lo mismo que hacer la validación manualmente con $request->validate([...]) y luego hacer $nota->update($validatedData)
-        $nota->update($request->validated());
+        $nota = Nota::create($request->safe()->except('etiquetas'));
+        $nota->etiquetas()->sync($request->validated('etiquetas', []));
 
         return redirect()->route('notas.show', $nota)->with('exito', 'Nota actualizada');
     }
@@ -115,6 +120,6 @@ class NotaController extends Controller
         $notas = $consulta->paginate(10);
         $buscar = null; // No hay búsqueda en esta vista, así que se establece como null
 
-        return view('notas.index', compact('notas', 'buscar'));
+        return view('notas.index', compact('notas', 'buscar')); // en este caso si uso compact, dejo ambos para acordarme que las dos son validas
     }
 }

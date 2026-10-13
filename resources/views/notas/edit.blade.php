@@ -12,7 +12,7 @@
         @csrf
         @method('PUT')
 
-        <x-nota-campos :nota="$nota" :categorias="$categorias" />
+        <x-nota-campos :nota="$nota" :categorias="$categorias" :etiquetas="$etiquetas" />
 
         <div class="mt-6 flex justify-end gap-2">
             <a href="{{ route('notas.show', $nota) }}"
