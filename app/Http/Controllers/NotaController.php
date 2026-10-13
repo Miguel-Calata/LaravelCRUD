@@ -62,7 +62,7 @@ class NotaController extends Controller
     public function update(NotaRequest $request, Nota $nota)
     {
         // es lo mismo que hacer la validación manualmente con $request->validate([...]) y luego hacer $nota->update($validatedData)
-        $nota = Nota::create($request->safe()->except('etiquetas'));
+        $nota->update($request->safe()->except('etiquetas'));
         $nota->etiquetas()->sync($request->validated('etiquetas', []));
 
         return redirect()->route('notas.show', $nota)->with('exito', 'Nota actualizada');
